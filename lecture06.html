@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6강 - 정치, 권력, 민주주의</title>
+    <title>6강 - 정치, 권력, 민주주의 핵심 개념</title>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
@@ -13,6 +13,7 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
+            touch-action: manipulation; /* 클로드의 터치 반응성 개선 */
         }
         .container {
             max-width: 800px;
@@ -65,6 +66,9 @@
             justify-content: center;
             padding: 30px;
             border-radius: 20px;
+            overflow-y: auto; /* 모바일 텍스트 넘침 방지 */
+            word-break: keep-all; /* 한글 단어 잘림 방지 */
+            overflow-wrap: break-word;
         }
         .front {
             background: white;
@@ -109,8 +113,17 @@
             padding: 20px;
             opacity: 0.8;
         }
+        /* 클로드의 모바일 최적화 쿼리 적용 */
         @media (max-width: 768px) {
-            .front, .back { font-size: 1.15rem; padding: 20px; }
+            .card {
+                min-height: 450px;
+                padding: 30px 20px;
+                margin: 15px 0;
+            }
+            .front, .back { 
+                font-size: 1.05rem; 
+                line-height: 1.6;
+            }
             .header h1 { font-size: 1.8rem; }
             button { padding: 10px 18px; font-size: 0.9rem; }
         }
@@ -121,7 +134,7 @@
 <div class="container">
     <div class="header">
         <h1>📚 사회복지학적 상상력</h1>
-        <p>6강 - 정치, 권력, 민주주의</p>
+        <p>6강 - 정치, 권력, 민주주의 핵심 개념</p>
     </div>
 
     <div class="progress">카드 <span id="current">1</span> / <span id="total">34</span></div>
@@ -146,6 +159,7 @@
 </div>
 
 <script>
+let current = 0;
 const cards = [
     {"q": "사전적 정의에 따르면, 국가의 권력을 획득하고 유지하며 행사하는 활동으로, 국민이 인간다운 삶을 영위하게 하고 사회 질서를 바로잡는 역할을 하는 것은 무엇인가?", "a": "정치"},
     {"q": "정치를 '사회의 공동 자원을 어떻게 배분할 것인가를 둘러싼 권력 관계'로 볼 때, 가장 핵심이 되는 것은 무엇인가?", "a": "권력의 정당화"},
@@ -245,19 +259,12 @@ document.addEventListener('keydown', e => {
         e.preventDefault(); 
         flip(); 
     }
-    else if (e.key === 'ArrowLeft') { 
-        current = (current - 1 + cards.length) % cards.length; 
-        showCard(); 
-    }
-    else if (e.key === 'ArrowRight') { 
-        current = (current + 1) % cards.length; 
-        showCard(); 
-    }
+    else if (e.key === 'ArrowLeft') document.getElementById('prev').click();
+    else if (e.key === 'ArrowRight') document.getElementById('next').click();
 });
 
 totalSpan.textContent = cards.length;
 showCard();
 </script>
-
 </body>
 </html>

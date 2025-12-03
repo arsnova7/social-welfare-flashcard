@@ -8,11 +8,12 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 1강 스타일 적용 */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
             display: flex;
             flex-direction: column;
+            touch-action: manipulation; /* 모바일 터치 반응성 개선 */
         }
         .container {
             max-width: 800px;
@@ -65,6 +66,9 @@
             justify-content: center;
             padding: 30px;
             border-radius: 20px;
+            overflow-y: auto; /* 모바일 텍스트 넘침 방지 */
+            word-break: keep-all; /* 한글 단어 잘림 방지 */
+            overflow-wrap: break-word;
         }
         .front {
             background: white;
@@ -73,7 +77,7 @@
             line-height: 1.6;
         }
         .back {
-            background: #667eea; /* 1강 스타일 적용 */
+            background: #667eea;
             color: white;
             transform: rotateY(180deg) scaleX(-1);
             font-size: 1.25rem;
@@ -109,8 +113,17 @@
             padding: 20px;
             opacity: 0.8;
         }
+        /* 클로드의 모바일 최적화 쿼리 적용 */
         @media (max-width: 768px) {
-            .front, .back { font-size: 1.15rem; padding: 20px; }
+            .card {
+                min-height: 450px;
+                padding: 30px 20px;
+                margin: 15px 0;
+            }
+            .front, .back { 
+                font-size: 1.05rem; 
+                line-height: 1.6;
+            }
             .header h1 { font-size: 1.8rem; }
             button { padding: 10px 18px; font-size: 0.9rem; }
         }
@@ -146,6 +159,7 @@
 </div>
 
 <script>
+let current = 0;
 const cards = [
     {"q": "자본주의를 움직이는 세 가지 핵심 요소는 무엇인가?", "a": "사유 재산, 시장, 경쟁"},
     {"q": "사유 재산 제도가 경제 주체에게 주는 긍정적인 역할은 무엇인가?", "a": "자발적 생산 노력과 투자를 유도하여 경제 발전에 기여한다."},
@@ -227,14 +241,8 @@ document.addEventListener('keydown', e => {
         e.preventDefault(); 
         flip(); 
     }
-    else if (e.key === 'ArrowLeft') { 
-        current = (current - 1 + cards.length) % cards.length; 
-        showCard(); 
-    }
-    else if (e.key === 'ArrowRight') { 
-        current = (current + 1) % cards.length; 
-        showCard(); 
-    }
+    else if (e.key === 'ArrowLeft') document.getElementById('prev').click();
+    else if (e.key === 'ArrowRight') document.getElementById('next').click();
 });
 
 totalSpan.textContent = cards.length;
