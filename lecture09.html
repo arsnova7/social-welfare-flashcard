@@ -13,6 +13,7 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
+            touch-action: manipulation; /* 터치 반응성 개선 */
         }
         .container {
             max-width: 800px;
@@ -65,6 +66,9 @@
             justify-content: center;
             padding: 30px;
             border-radius: 20px;
+            overflow-y: auto; /* 모바일 텍스트 넘침 방지 */
+            word-break: keep-all; /* 한글 단어 잘림 방지 */
+            overflow-wrap: break-word;
         }
         .front {
             background: white;
@@ -109,8 +113,17 @@
             padding: 20px;
             opacity: 0.8;
         }
+        /* 클로드의 모바일 최적화 쿼리 적용 */
         @media (max-width: 768px) {
-            .front, .back { font-size: 1.15rem; padding: 20px; }
+            .card {
+                min-height: 450px;
+                padding: 30px 20px;
+                margin: 15px 0;
+            }
+            .front, .back { 
+                font-size: 1.05rem; 
+                line-height: 1.6;
+            }
             .header h1 { font-size: 1.8rem; }
             button { padding: 10px 18px; font-size: 0.9rem; }
         }
@@ -146,6 +159,7 @@
 </div>
 
 <script>
+let current = 0;
 const cards = [
     {"q": "타인에게 직간접적으로 영향을 미치거나 사회적 의미를 내포하고 있는 동작을 무엇이라고 하는가?", "a": "사회적 행위"},
     {"q": "사회과학에서 사회 현상을 이해하기 위해 개인 또는 집단의 행위를 보고 무엇을 분석해야 한다고 하였는가?", "a": "그 행위에 담긴 의미"},
@@ -193,7 +207,7 @@ const cards = [
     {"q": "강제적 조직에서 조직이 구성원을 통제하는 방식은 무엇인가?", "a": "강제적 규율, 통제, 감시"},
     {"q": "실리적 필요에 따라 가입하며, 보상을 통해 구성원의 참여를 유도하는 조직은 무엇인가? (예: 회사)", "a": "공리적 조직"},
     {"q": "공리적 조직에서 통제와 순응은 어떤 방식으로 이루어지는가?", "a": "보수/보상 배분에 의한 통제와 이해타산적 순응"},
-    {"q": "가치, 신념, 사명감 등에 따라 자발적으로 가입하고 활동하는 조직은 무엇인가? (예: 시민단체, 종교조직)", "a": "자발적/규범적 조직"},
+    {"q": "가치, 신념, 사명감 등에 따라 자발적으로 가입하고 활동하는 조직은 무엇인가?", "a": "자발적/규범적 조직"},
     {"q": "자발적/규범적 조직에서 구성원에게 주어지는 주된 보상은 무엇인가?", "a": "물질적 보상이 아닌 도덕적 만족, 사회적 인정, 소속감 등"},
     {"q": "자발적/규범적 조직에서 통제와 순응은 어떤 원리에 의해 이루어지는가?", "a": "도덕적 권위에 의한 통제와 자발적, 규범적 의지에 의한 순응"},
     {"q": "사회적 행위는 개인의 _____ 의미 부여가 중요한 요소이다.", "a": "주관적"},
