@@ -13,7 +13,7 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            touch-action: manipulation; /* 모바일 터치 반응성 개선 */
+            touch-action: manipulation; /* 터치 반응성 개선 */
         }
         .container {
             max-width: 800px;
@@ -241,8 +241,14 @@ document.addEventListener('keydown', e => {
         e.preventDefault(); 
         flip(); 
     }
-    else if (e.key === 'ArrowLeft') document.getElementById('prev').click();
-    else if (e.key === 'ArrowRight') document.getElementById('next').click();
+    else if (e.key === 'ArrowRight') {
+        current = (current + 1) % cards.length; 
+        showCard();
+    }
+    else if (e.key === 'ArrowLeft') {
+        current = (current - 1 + cards.length) % cards.length; 
+        showCard();
+    }
 });
 
 totalSpan.textContent = cards.length;
